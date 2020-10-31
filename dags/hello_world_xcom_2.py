@@ -11,12 +11,16 @@ from airflow.models import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 
-args={
+default_args={
     'owner': 'sankar',
     'start_date': days_ago(1)
 }
 
-dag = DAG(dag_id='hell_world_xcom_2', default_args=args, schedule_interval=None)
+dag = DAG(
+    dag_id='hello_world_xcom_2',
+    default_args=default_args,
+    description='XCom - cross communication between tasks',
+    schedule_interval=None)
 
 def task1_func(**context):
     context['ti'].xcom_push(key='task1_value', value='Hello')

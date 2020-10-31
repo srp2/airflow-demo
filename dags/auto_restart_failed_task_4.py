@@ -14,12 +14,16 @@ from airflow.utils.dates import days_ago, timedelta
 from airflow.operators.python_operator import PythonOperator
 import random
 
-args={
+default_args={
     'owner': 'sankar',
     'start_date': days_ago(1)
 }
 
-dag = DAG(dag_id='auto_restart_failed_task_4', default_args=args, schedule_interval=None)
+dag = DAG(
+    dag_id='auto_restart_failed_task_4',
+    default_args=default_args,
+    description='Auto restart of failed task',
+    schedule_interval=None)
 
 def task1_func(**context):
     # random floating point number in the range [0.0, 1.0)

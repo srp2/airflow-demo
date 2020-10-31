@@ -1,19 +1,16 @@
 """
-Concepts: Restart failed task
+Concepts: Trigger DAG via REST endpoint
 
 A simple dag with 2 tasks of type PythonOperators
-task1:
-if random >= 0.7 raise exception
-else push {"task1_value": "Hello"} into xcom
-task_2:
-retrives task1_value (i.e. Hello ) from xcom
+task_1 received the runtime config from curl and
+pushes key1 value into xcom {"task1_value": val1}
+task_2 retrives task1_value (i.e. Hello ) from xcom
 adds string " World" to it and prints it
 """
 
 from airflow.models import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
-import random
 
 default_args={
     'owner': 'sankar',
@@ -21,17 +18,18 @@ default_args={
 }
 
 dag = DAG(
-    dag_id='restart_failed_task_3',
+    dag_id='trigger_dag_rest_pass_value_5',
     default_args=default_args,
-    description='Restart failed task',
+    description='Trigger DAG via REST endpoint',
     schedule_interval=None)
 
+# https://airflow.apache.org/docs/stable/rest-api-ref.html#post--api-experimental-dags--DAG_ID--dag_runsS
+# https://github.com/apache/airflow/blob/master/airflow/www/api/experimental/endpoints.py
 def task1_func(**context):
-    # random floating point number in the range [0.0, 1.0)
-    if random.random() >= 0.7:
-        raise Exception('task_1 exception')
-    else:
-        context['ti'].xcom_push(key='task1_value', value='Hello')
+    # Print the payload passed to the DagRun conf attribute.
+    print(context['dag_run'].conf)
+    val1 = context['dag_run'].conf['key1']
+    context['ti'].xcom_push(key='task1_value', value=val1)
     print("task1_complete")
 
 task1 = PythonOperator(

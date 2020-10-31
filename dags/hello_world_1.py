@@ -38,7 +38,11 @@ default_args={
     # 'trigger_rule': 'all_success'
 }
 
-dag = DAG(dag_id='hello_world_1', default_args=default_args, schedule_interval=None)
+dag = DAG(
+    dag_id='hello_world_1',
+    default_args=default_args,
+    description='A simple tutorial DAG',
+    schedule_interval=None)
 
 # hello_task and world_task are examples of tasks created by instantiating operators
 def hello_func(**context):

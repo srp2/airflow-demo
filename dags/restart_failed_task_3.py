@@ -32,10 +32,10 @@ def task1_func(**context):
         raise Exception('task_1 exception')
     else:
         context['ti'].xcom_push(key='task1_value', value='Hello')
-    print("task1_complete")
+    print('task1_complete')
 
 task1 = PythonOperator(
-    task_id="task_1",
+    task_id='task_1',
     dag=dag,
     python_callable=task1_func,
     provide_context=True
@@ -46,7 +46,7 @@ def task2_func(**context):
     print(msg)
 
 task2 = PythonOperator(
-    task_id="task_2",
+    task_id='task_2',
     dag=dag,
     python_callable=task2_func,
     provide_context=True

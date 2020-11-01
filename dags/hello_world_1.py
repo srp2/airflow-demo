@@ -2,8 +2,8 @@
 Concepts: Create DAG, Tasks and Dependencies
 
 A simple dag with 2 tasks of type PythonOperators
-task_1 prints "Hello"
-task_2 prints "World"
+task_1 prints 'Hello'
+task_2 prints 'World'
 """
 
 # The DAG object; we'll need this to instantiate a DAG
@@ -46,20 +46,20 @@ dag = DAG(
 
 # hello_task and world_task are examples of tasks created by instantiating operators
 def hello_func(**context):
-    print("Hello")
+    print('Hello')
 
 hello_task = PythonOperator(
-    task_id="hello_task",
+    task_id='hello_task',
     dag=dag,
     python_callable=hello_func,
     provide_context=True
 )
 
 def world_func(**context):
-    print("World")
+    print('World')
 
 world_task = PythonOperator(
-    task_id="world_task",
+    task_id='world_task',
     dag=dag,
     python_callable=world_func,
     provide_context=True
